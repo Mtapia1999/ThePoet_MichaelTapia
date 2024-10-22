@@ -4,8 +4,17 @@
 </header>
 
 <nav id="appNav">
-  <input class="navSearch" />
-  <button class="navItem">Search</button>
+  <form (submit)="searchItem()">
+    <input
+      type="text"
+      class="navSearch"
+      [(ngModel)]="searchValue"
+      name="searchInput"
+      placeholder="Type in an Author or Title"
+    />
+    <button class="navItem">Search</button>
+  </form>
+  <!-- <input class="navSearch" [(ng-model)]="searchValue" /> -->
   <button class="navItem" (click)="toggleAuthor()">
     {{ authorButtonName() }}
   </button>
@@ -18,13 +27,13 @@
   @if (authorDisplay && !errorDisplay) {
   <div class="listDisplay">
     @for (author of authorList; track author) {
-    <p class="listItem">{{ author }}</p>
+    <p class="listItem" (click)="searchByClick(author)">{{ author }}</p>
     }
   </div>
   } @else if (titleDisplay && !errorDisplay) {
   <div class="listDisplay">
     @for (title of titleList; track title) {
-    <p class="listItem">{{ title }}</p>
+    <p class="listItem" (click)="searchByClick(title)">{{ title }}</p>
     }
   </div>
   } @else if (errorDisplay) { Error }
