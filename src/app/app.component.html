@@ -4,6 +4,8 @@
 </header>
 
 <nav id="appNav">
+  <input class="navSearch" />
+  <button class="navItem">Search</button>
   <button class="navItem" (click)="toggleAuthor()">
     {{ authorButtonName() }}
   </button>
@@ -13,17 +15,17 @@
 </nav>
 
 <section>
-  @if (authorDisplay) {
+  @if (authorDisplay && !errorDisplay) {
   <div class="listDisplay">
     @for (author of authorList; track author) {
     <p class="listItem">{{ author }}</p>
     }
   </div>
-  } @else if (titleDisplay) {
+  } @else if (titleDisplay && !errorDisplay) {
   <div class="listDisplay">
     @for (title of titleList; track title) {
     <p class="listItem">{{ title }}</p>
     }
   </div>
-  }
+  } @else if (errorDisplay) { Error }
 </section>

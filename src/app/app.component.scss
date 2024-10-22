@@ -11,9 +11,17 @@
   justify-content: center;
   position: sticky;
   top: 0;
+  height: auto;
+  background-color: #333;
 }
 .navItem {
-  margin: 3px;
+  margin: 10px 3px;
+  height: 45px;
+}
+.navSearch {
+  margin: 10px 3px;
+  height: 38px;
+  width: 400px;
 }
 
 .listDisplay {
@@ -26,4 +34,7 @@
 .listItem {
   font-size: medium;
   width: 16%;
+}
+.listItem:hover {
+  color: aqua;
 }
