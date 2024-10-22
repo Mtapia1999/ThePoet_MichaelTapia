@@ -20,22 +20,25 @@ export class AppComponent {
   authorList = '';
   titleDisplay = false;
   titleList = '';
+  errorDisplay = false;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.http.get('https://poetrydb.org/author').subscribe({
-      next: (data: any) => {
-        this.authorList = data.authors;
+      next: (data: any) => this.authorList = data.authors,
+      error: (err) => {
+        console.log(err)
+        this.errorDisplay = true
       },
-      error: (err) => console.log(err),
     });
 
     this.http.get('https://poetrydb.org/title').subscribe({
-      next: (data: any) => {
-        this.titleList = data.titles;
+      next: (data: any) => this.titleList = data.titles,
+      error: (err) => {
+        console.log(err)
+        this.errorDisplay = true
       },
-      error: (err) => console.log(err),
     });
   }
 
