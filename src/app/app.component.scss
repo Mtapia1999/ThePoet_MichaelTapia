@@ -1,6 +1,29 @@
-.stickyHead {
+#appHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 5%;
+}
+
+#appNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+}
+.navItem {
+  margin: 3px;
+}
+
+.listDisplay {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  justify-content: space-around;
+  align-items: center;
+}
+.listItem {
+  font-size: medium;
+  width: 16%;
 }

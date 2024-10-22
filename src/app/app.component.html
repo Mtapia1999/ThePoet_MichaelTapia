@@ -1,6 +1,29 @@
-<div class="stickyHead">
-  <h2> {{ title }} </h2>
-  <h3> {{ user }}</h3>
-</div>
+<header id="appHeader">
+  <h1>{{ title }}</h1>
+  <h3>{{ user }}</h3>
+</header>
 
-<h2> Please enter the title or author of the poem you are looking for</h2>
+<nav id="appNav">
+  <button class="navItem" (click)="toggleAuthor()">
+    {{ authorButtonName() }}
+  </button>
+  <button class="navItem" (click)="toggleTitle()">
+    {{ titleButtonName() }}
+  </button>
+</nav>
+
+<section>
+  @if (authorDisplay) {
+  <div class="listDisplay">
+    @for (author of authorList; track author) {
+    <p class="listItem">{{ author }}</p>
+    }
+  </div>
+  } @else if (titleDisplay) {
+  <div class="listDisplay">
+    @for (title of titleList; track title) {
+    <p class="listItem">{{ title }}</p>
+    }
+  </div>
+  }
+</section>
