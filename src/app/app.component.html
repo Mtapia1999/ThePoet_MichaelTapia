@@ -18,7 +18,6 @@
     />
     <button class="navItem">Search</button>
   </form>
-  <!-- <input class="navSearch" [(ng-model)]="searchValue" /> -->
   <button class="navItem" (click)="toggleAuthor()">
     {{ authorButtonName() }}
   </button>
@@ -51,7 +50,13 @@
       <div>Author: {{ data.author }}</div>
       <div>Title: {{ data.title }}</div>
       <div>Line Count: {{ data.linecount }}</div>
-      <div>Lines: {{ data.lines }}</div>
+      <div>
+        Lines: @for (line of data.lines; track line) {
+        <div>
+          {{ line }}
+        </div>
+        }
+      </div>
     </div>
     }
   </div>
