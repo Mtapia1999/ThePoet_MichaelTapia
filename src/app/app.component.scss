@@ -23,6 +23,11 @@
   height: 38px;
   width: 400px;
 }
+.navSelect {
+  margin: 10px 3px;
+  height: 45px;
+  width: 70px;
+}
 
 .listDisplay {
   display: flex;
@@ -37,4 +42,9 @@
 }
 .listItem:hover {
   color: aqua;
+}
+
+.dataItem {
+  font-size: medium;
+  width: 16%;
 }

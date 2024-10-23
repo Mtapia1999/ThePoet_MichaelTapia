@@ -4,13 +4,17 @@
 </header>
 
 <nav id="appNav">
+  <select name="searchOption" class="navSelect" [(ngModel)]="searchChoice">
+    <option value="author">Author</option>
+    <option value="title">Title</option>
+  </select>
   <form (submit)="searchItem()">
     <input
       type="text"
       class="navSearch"
       [(ngModel)]="searchValue"
       name="searchInput"
-      placeholder="Type in an Author or Title"
+      placeholder="{{ searchPlaceholder() }}"
     />
     <button class="navItem">Search</button>
   </form>
@@ -36,5 +40,20 @@
     <p class="listItem" (click)="searchByClick(title)">{{ title }}</p>
     }
   </div>
-  } @else if (errorDisplay) { Error }
+  } @else if (errorDisplay) {
+  <div>
+    {{ errorMessage }}
+  </div>
+  } @else if (!titleDisplay && !authorDisplay && !errorDisplay) {
+  <div class="listDisplay">
+    @for (data of searchReturn; track data) {
+    <div class="dataItem">
+      <div>Author: {{ data.author }}</div>
+      <div>Title: {{ data.title }}</div>
+      <div>Line Count: {{ data.linecount }}</div>
+      <div>Lines: {{ data.lines }}</div>
+    </div>
+    }
+  </div>
+  }
 </section>

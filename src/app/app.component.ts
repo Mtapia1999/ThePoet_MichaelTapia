@@ -3,6 +3,13 @@ import { Component, Injectable } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 
+interface IPoetDBReturnObject {
+  author: string,
+  linecount: number,
+  lines: string[],
+  title: string
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +28,10 @@ export class AppComponent {
   titleDisplay = false;
   titleList = '';
   errorDisplay = false;
+  errorMessage = '';
+  searchChoice: 'author' | 'title' = 'author';
   searchValue = '';
+  searchReturn: IPoetDBReturnObject[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -31,6 +41,9 @@ export class AppComponent {
         this.authorList = data.authors;
         if (data.status && data.status !== 200) {
           this.errorDisplay = true;
+          this.errorMessage =
+            'Getting list of Authors has failed with status code of ' +
+            data.status;
         }
       },
       error: (err) => {
@@ -44,6 +57,9 @@ export class AppComponent {
         this.titleList = data.titles;
         if (data.status && data.status !== 200) {
           this.errorDisplay = true;
+          this.errorMessage =
+            'Getting list of Titles has failed with status code of ' +
+            data.status;
         }
       },
       error: (err) => {
@@ -61,7 +77,16 @@ export class AppComponent {
     }
   }
 
+  searchPlaceholder(): string {
+    if (this.searchChoice === 'author') {
+      return 'Type in an Author';
+    } else {
+      return 'Type in an Title';
+    }
+  }
+
   toggleAuthor() {
+    this.errorDisplay = false
     if (this.authorDisplay) {
       this.authorDisplay = false;
     } else {
@@ -79,6 +104,7 @@ export class AppComponent {
   }
 
   toggleTitle() {
+    this.errorDisplay = false
     if (this.titleDisplay) {
       this.titleDisplay = false;
     } else {
@@ -88,12 +114,57 @@ export class AppComponent {
   }
 
   searchItem() {
+    this.errorDisplay = false
+    if (this.authorDisplay || this.titleDisplay) {
+      this.authorDisplay = false
+      this.titleDisplay = false
+    }
+
     if (this.searchValue !== '') {
-      console.log('Searching for Author or Title');
+      if(this.searchChoice === 'author') {
+        this.http.get('https://poetrydb.org/author/' + this.searchValue).subscribe({
+          next: (data: any) => {
+            this.searchReturn = data
+            console.log(data)
+            if (data.status && data.status !== 200) {
+              this.errorDisplay = true;
+              this.errorMessage =
+                'Searching for Author with value of ' + this.searchValue + ' has failed with status code of ' +
+                data.status;
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            this.errorDisplay = true;
+          },
+        });
+      } else {
+        this.http.get('https://poetrydb.org/title/' + this.searchValue).subscribe({
+          next: (data: any) => {
+            this.searchReturn = data
+            console.log(data)
+            if (data.status && data.status !== 200) {
+              this.errorDisplay = true;
+              this.errorMessage =
+                'Searching for Title with value of ' + this.searchValue + ' has failed with status code of ' +
+                data.status;
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            this.errorDisplay = true;
+          },
+        });
+      }
     }
   }
 
   searchByClick(inputValue: string) {
+    if (this.authorDisplay) {
+      this.searchChoice = 'author'
+    } else {
+      this.searchChoice = 'title'
+    }
     this.searchValue = inputValue;
     this.searchItem()
   }
